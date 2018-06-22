@@ -1,8 +1,11 @@
+
+// Add event listener to submit button
 document.getElementById('makeTweet').addEventListener('click', getTweet);
 
+
+// 
 function getTweet(e) {
 
-  
   let TweetMaker = {
     creator: document.getElementById('creator').value,
     work: document.getElementById('work').value,
@@ -27,7 +30,7 @@ function getTweet(e) {
     }
     return '#' + str.join('');
   }
-
+  
   function thisifyTwo() {
     let str = document.getElementById('this-statement').value;
     let acronym, nextWord;
@@ -46,5 +49,5 @@ function getTweet(e) {
   sticky.innerHTML = TweetMaker.tweet();
 
   e.preventDefault();
-
+  document.getElementById("form").reset();
 }
