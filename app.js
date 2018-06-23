@@ -36,12 +36,26 @@ const TweetCtrl = (function () {
 
       // Create hashtags      
       function thisify() {
-        let str = statement;
-        str = str.toLowerCase().split(' ');
-        for (var i = 0; i < str.length; i++) {
-          str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+        let str1 = statement;
+        let str2 = statement;
+        let acronym, nextWord;
+
+        str1 = str1.toLowerCase().split(' ');
+        for (var i = 0; i < str1.length; i++) {
+          str1[i] = str1[i].charAt(0).toUpperCase() + str1[i].slice(1);
         }
-        return '#' + str.join('');
+
+        words = str2.split(' ');
+        acronym = "";
+        index = 0
+        while (index < words.length) {
+          nextWord = words[index];
+          acronym = acronym + nextWord.charAt(0);
+          index = index + 1;
+        }
+        
+        return '#' + str1.join('') + ' ' + '#' + acronym.toUpperCase();
+
       };
 
       // thisTwo = this.thisifyTwo(statement)
@@ -78,11 +92,7 @@ const UICtrl = (function () {
       tweets.forEach(function (tweet) {
         html += `        
         <div class="collection-item">
-          ${tweet.creator} - ${tweet.work}
-          <br>
-          ${tweet.url}
-          <br><br>
-          ${tweet.statement}
+
         </div>
         `;
       });
@@ -99,7 +109,7 @@ const UICtrl = (function () {
       }
     },
     addListTweet: function (tweet) {
-      
+
       // Show list
       document.querySelector(UISelectors.tweetList).style.display = 'block';
 
@@ -107,18 +117,29 @@ const UICtrl = (function () {
       const div = document.createElement('div');
       // Add class
       div.classCreator = 'collection-tweet card';
-      
-      
+
+      let text = `${tweet.creator} - ${tweet.work}`
+      let hashtags = tweet.statement.replace(/#/g,'').replace(/ /g,',');
+
+      // TODO: Figure out line breaks
+      // TODO: Maybe append tweet button in separate template
+      // TODO: Encode whole uri?
+
       // Add html
       div.innerHTML = `
       <div class="card-body">
       ${tweet.creator} - ${tweet.work}
       <br><br>
-      ${tweet.url}
-      <br>
       ${tweet.statement}
+      <br>
+      ${tweet.url}      
+      <a href="https://twitter.com/intent/tweet?text=${text}&hashtags=${hashtags}"  class="twitter-share-button" data-size="large">Tweet</a>
       </div>
       `;
+      
+      console.log(hashtags);
+      console.log();
+
       // Insert tweet
       document.querySelector(UISelectors.tweetList).insertAdjacentElement('beforeend', div)
     },
@@ -153,7 +174,7 @@ const App = (function (TweetCtrl, UICtrl) {
     // Get form input from UI Controller
     const input = UICtrl.getTweetInput();
 
-    // Check for creator and calorie input
+    // Check for inputs
     if (input.creator !== '' && input.work !== '' && input.url !== '' && input.statement !== '') {
 
       // Add tweet
@@ -181,11 +202,10 @@ const App = (function (TweetCtrl, UICtrl) {
         // Populate list with tweets
         UICtrl.populateTweetList(tweets);
       }
-      
+
       // Load event listeners
       loadEventListeners();
-
-      }
+    }
   }
 
 })(TweetCtrl, UICtrl);
