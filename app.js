@@ -69,15 +69,24 @@ const UICtrl = (function () {
             }
         },
 
-        // create Tweet link
+
+        // create Tweet link - i think this should really be in the Tweet controller
         createTweetLink: function () {
             let textParam = `${newTweet.creator} - ${newTweet.work}`;
-            let urlParam = newTweet.url;
+            let urlParam = encodeURI(newTweet.url);
             let hashtagsParam = newTweet.statement;
-            let tweetURL = `https://twitter.com/intent/tweet?text=${textParam}&hashtags=${hashtagsParam}&url=${urlParam}`;
+            let tweetURL = `https://twitter.com/intent/tweet?text=${encodeURI(textParam)}%0A%0A&hashtags=${hashtagsParam}&url=${urlParam}`;
 
-            // TODO: Add to href attr of share button
-            console.log(tweetURL)
+            let shareButton = `
+            <a type="button" class="twitter-share-button" data-size="large" data-show-count="false" href="${tweetURL}" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            `;
+
+            // Oddly, line breaks are working but a space is prepended to front of URL
+            let tweetBtnDiv = document.getElementById('twt-btn-div');
+            tweetBtnDiv.innerHTML = shareButton;
+
+            console.log(tweetURL);
+            console.log(shareButton);
         },
 
 
@@ -91,7 +100,6 @@ const UICtrl = (function () {
         getSelectors: function () {
             return UISelectors;
         }
-
     }
 
 })();
