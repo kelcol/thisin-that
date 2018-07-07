@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
     crossorigin="anonymous">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
@@ -13,57 +15,91 @@
 
 <body>
   <div class="container">
-    <h1 class="text-center mt-5 mb-5"><strong>Thisin' That</strong> Tweet Generator</h1>
+    <h1 class="text-center mt-5 mb-5">
+      <strong>Thisin' That</strong> Tweet Generator</h1>
   </div>
 
 
   <div class="container">
-    <form id="form">
 
-      <div class="form-group">
-        <label for="input">Creator</label>
-        <input type="text" class="form-control" id="creator" placeholder="George Guzman">
+    <div class="card">
+      <div class="card-content">
+        <form id="form">
+
+          <div class="form-group">
+            <label for="input">Creator</label>
+            <input type="text" class="form-control" id="creator" required data-value-missing=”This field is required!” placeholder="George Guzman">
+          </div>
+
+          <div class="form-group">
+            <label for="input">Work</label>
+            <input type="text" class="form-control" id="work" required data-value-missing=”This field is required!” placeholder="Banana Freak Out">
+          </div>
+
+          <div class="form-group">
+            <label for="input">URL</label>
+            <input type="url" class="form-control" id="url" required data-value-missing=”This field is required!” placeholder="https://youtu.be/gM-n2iF36CU">
+          </div>
+
+
+          <div class="form-group">
+            <label for="input">What statement do you want to make hashtags of?</label>
+            <input type="text" class="form-control" id="statement" required data-value-missing=”This field is required!” placeholder="this will get you off the floor and out the door">
+          </div>
+
+          <div class="btn-group" role="group" aria-label="Basic example">
+
+            <button class="add-btn btn blue darken-3">
+              <i class="fa fa-plus"></i>Create Tweet</button>
+            <button class="update-btn btn orange">
+              <i class="fa fa-pencil-square-o"></i>Update Tweet</button>
+            <button class="delete-btn btn red">
+              <i class="fa fa-remove"></i>Delete Tweet</button>
+            <button class="back-btn btn grey pull-right">
+              <i class="fa fa-chevron-circle-left"></i>Back</button>
+
+
+
+
+            <button id="twt-btn" value="Submit" type="button">Submit</button>
+            <div id="twt-btn-div"></div>
+          </div>
+
+        </form>
       </div>
-
-      <div class="form-group">
-        <label for="input">Work</label>
-        <input type="text" class="form-control" id="work" placeholder="Banana Freak Out">
-      </div>
-
-      <div class="form-group">
-        <label for="input">URL</label>
-        <input type="url" class="form-control" id="url" placeholder="https://youtu.be/gM-n2iF36CU">
-      </div>
-
-
-      <div class="form-group">
-        <label for="input">What statement do you want to make hashtags of?</label>
-        <input type="text" class="form-control" id="statement" placeholder="this will get you off the floor and out the door">
-      </div>
-
-      <div class="btn-group" role="group" aria-label="Basic example">
-        <button id="twt-btn" value="Submit" type="button">Submit</button>
-        <div id="twt-btn-div"></div>
-      </div>
-
-    </form>
-
-    <div class="mt-5" id="notes" style="color:red">
-      <ul>
-        <li>add form validation</li>
-        <li>figure out why space is prepended to url in final tweet</li>
-        <li>look into content security errors being thrown</li>
-        <li>interactivity and styling, espec buttons</li>
-        <li>add ability to preview</li>
-      </ul>
-
     </div>
 
 
+    <ul id="tweet-list" class="collection">
 
-    <div>
-    </div>
-  </iv>
+      <!-- <li class="collection-item" id="item-0">
+                <strong>${tweet.creator} - </strong>
+                <em>${tweet.work}</em>
+                <a href="#" class="secondary-content">
+                  <i class="edit-item fa fa-pencil"></i>
+                </a>
+              </li> -->
+
+    </ul>
+  </div>
+
+
+
+  <div class="container" id="notes" style="color:red">
+    <ul>
+      <li>add form validation</li>
+      <li>figure out why space is prepended to url in final tweet</li>
+      <li>look into content security errors being thrown</li>
+      <li>interactivity and styling, espec buttons</li>
+      <li>add ability to preview</li>
+    </ul>
+  </div>
+
+
+
+  <div>
+  </div>
+  </div>
 
   <script src="app.js"></script>
 
@@ -78,3 +114,8 @@
 
 </html>
 
+<style>
+  ul {
+    list-style: none;
+  }
+</style>
