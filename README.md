@@ -11,7 +11,7 @@ What it does is collect information about something I want to share:
 
 This data is then used to construct a URL which can be used to open and populate a Twitter compose window.
 
-### Here's an example template string used to create a URL: 
+### Here's an example URL: 
 
 https://twitter.com/intent/tweet?text=Chica%20Libre%20-%20Popcorn%20Andino%0A%0A&hashtags=ThisSongMakesMeHungry,TSMMH&url=https://youtu.be/JqcaqOnrems
 
