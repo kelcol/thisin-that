@@ -42,7 +42,7 @@ const StorageCtrl = (function () {
 
             tweets.forEach(function (tweet, index) {
                 if (updatedTweet.id === tweet.id) {
-                    tweets.splice(index, 1, updatedTweet)
+                    tweets.splice(index, 1, updatedTweet);
                 }
             });
             localStorage.setItem('tweets', JSON.stringify(tweets));
@@ -52,7 +52,7 @@ const StorageCtrl = (function () {
 
             tweets.forEach(function (tweet, index) {
                 if (id === tweet.id) {
-                    tweets.splice(index, 1)
+                    tweets.splice(index, 1);
                 }
             });
             localStorage.setItem('tweets', JSON.stringify(tweets));
@@ -84,28 +84,27 @@ const TweetCtrl = (function () {
 
     // Data Structure / State
     const data = {
-        tweets: [
-            // {
-            //     id: 0,
-            //     creator: 'creator1',
-            //     work: 'work1',
-            //     url: 'https://youtu.be/gM-n2iF36CU',
-            //     statement: 'this is a test 1'
-            // },
-            // {
-            //     id: 1,
-            //     creator: 'creator2',
-            //     work: 'work2',
-            //     url: 'https://youtu.be/gM-n2iF36CU',
-            //     statement: 'this is a test 2'
-            // },
-            // {
-            //     id: 2,
-            //     creator: 'creator3',
-            //     work: 'work3',
-            //     url: 'https://youtu.be/gM-n2iF36CU',
-            //     statement: 'this is a test 3'
-            // }
+        tweets: [{
+                id: 0,
+                creator: 'creator1',
+                work: 'work1',
+                url: 'https://youtu.be/gM-n2iF36CU',
+                statement: 'this is a test 1'
+            },
+            {
+                id: 1,
+                creator: 'creator2',
+                work: 'work2',
+                url: 'https://youtu.be/gM-n2iF36CU',
+                statement: 'this is a test 2'
+            },
+            {
+                id: 2,
+                creator: 'creator3',
+                work: 'work3',
+                url: 'https://youtu.be/gM-n2iF36CU',
+                statement: 'this is a test 3'
+            }
         ],
         tweets: StorageCtrl.getTweetsFromStorage(),
         currentTweet: null
@@ -177,24 +176,24 @@ const TweetCtrl = (function () {
         getCurrentTweet: function () {
             return data.currentTweet;
         },
-        makeHashtagParams: function(statement) {
+        makeHashtagParams: function (statement) {
             let str1 = statement;
-                let str2 = statement;
-                let acronym, nextWord;
+            let str2 = statement;
+            let acronym, nextWord;
 
-                str1 = str1.toLowerCase().split(" ");
-                for (var i = 0; i < str1.length; i++) {
-                    str1[i] = str1[i].charAt(0).toUpperCase() + str1[i].slice(1);
-                }
+            str1 = str1.toLowerCase().split(" ");
+            for (var i = 0; i < str1.length; i++) {
+                str1[i] = str1[i].charAt(0).toUpperCase() + str1[i].slice(1);
+            }
 
-                words = str2.split(" ");
-                acronym = "";
-                index = 0;
-                while (index < words.length) {
-                    nextWord = words[index];
-                    acronym = acronym + nextWord.charAt(0);
-                    index = index + 1;
-                }
+            words = str2.split(" ");
+            acronym = "";
+            index = 0;
+            while (index < words.length) {
+                nextWord = words[index];
+                acronym = acronym + nextWord.charAt(0);
+                index = index + 1;
+            }
             return str1.join("") + "," + acronym.toUpperCase();
         },
         logData: function () {
@@ -328,7 +327,7 @@ const UICtrl = (function () {
             document.querySelector(UISelectors.backBtn).style.display = 'inline';
             document.querySelector(UISelectors.addBtn).style.display = 'none';
         },
-        openInNewTab: function(url) {
+        openInNewTab: function (url) {
             let win = window.open(url, '_blank');
             win.focus();
         },
@@ -456,6 +455,9 @@ const App = (function (TweetCtrl, StorageCtrl, UICtrl) {
         // Update UI
         UICtrl.updateTweet(updatedTweet);
 
+        // Update tweet in LS
+        StorageCtrl.updateTweetStorage(updatedTweet);
+
         UICtrl.clearEditState();
 
         e.preventDefault();
@@ -470,12 +472,15 @@ const App = (function (TweetCtrl, StorageCtrl, UICtrl) {
         let textParam = `${currentTweet.creator} - ${currentTweet.work}`;
         let urlParam = encodeURI(currentTweet.url);
         let hashtagsParam = TweetCtrl.makeHashtagParams(currentTweet.statement);
-        let tweetURL = `https://twitter.com/intent/tweet?text=${encodeURI(textParam)}%0A%0A&hashtags=${hashtagsParam}&url=${urlParam}`;        
+        let tweetURL = `https://twitter.com/intent/tweet?text=${encodeURI(textParam)}%0A%0A&hashtags=${hashtagsParam}&url=${urlParam}`;
 
         // TODO: Figure out why currentTweet isn't being removed from 
 
         // Delete from data structure
         TweetCtrl.deleteTweet(currentTweet.id);
+
+        // Delete from LS
+        StorageCtrl.deleteTweetFromStorage(currentTweet.id);
 
         // Delete from UI
         UICtrl.deleteListTweet(currentTweet.id);
@@ -496,6 +501,9 @@ const App = (function (TweetCtrl, StorageCtrl, UICtrl) {
 
         // Delete from data structure
         TweetCtrl.deleteTweet(currentTweet.id);
+
+        // Delete from LS
+        StorageCtrl.deleteTweetFromStorage(currentTweet.id);
 
         // Delete from UI
         UICtrl.deleteListTweet(currentTweet.id);
